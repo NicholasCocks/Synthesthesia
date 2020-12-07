@@ -2,13 +2,15 @@
 Welcome to the Draw-Me-Oscillascope wiki!
 
 ## Background!
-An oscilloscope's is an instrument who's primary function is to provide a graph of a signal's voltage over time. 
+An oscilloscope's is an instrument who's primary function is to provide a graph of the fourier transform of sound waves by letting users draw shapes that correspond to pitches and volumes.
 
 ## Functionality & MVP
 With Draw-Me-Oscillascope, users will be able to:
 
-Free-draw onto a board (graph). The x-axis corresponding to the left audio channel's volume and the y-axis corresponding to the right channel's volume.
+Free-draw onto a board (graph). The x-axis corresponding to the left audio channel's volume/frequency and the y-axis corresponding to the right channel's volume/frequency.
 A frequency analyzer to show the waveform they're drawing.
+A visual display of the numbers going into the fourier transform.
+
 
 In addition this project will include:
 A brief introduction to the Fourier Transform used to convert coordinates to sound. 
