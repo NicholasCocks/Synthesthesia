@@ -2,7 +2,7 @@
 Welcome to the Draw-Me-Oscillascope wiki!
 
 ## Background!
-An oscilloscope's is an instrument who's primary function is to provide a graph of the fourier transform of sound waves by letting users draw shapes that correspond to pitches and volumes.
+This app will allows users to draw sound and have the canvas dynamically react to their mouse movements and the sound being generated!
 
 ## Functionality & MVP
 With Draw-Me-Oscillascope, users will be able to:
