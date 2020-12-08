@@ -1,4 +1,5 @@
 import "./styles/index.scss";
+import * as Tone from 'tone';
 
 const NOTES = [
     20.60172,
@@ -105,9 +106,6 @@ window.addEventListener('load', () => {
     
     //drawing
     let drawing = false;
-
-    //speed
-    let timestamp = null;
     
     drawVisualizer()
     resizeVisualizer()
@@ -165,9 +163,6 @@ window.addEventListener('load', () => {
        
         ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
         ctx.shadowColor = `rgba(${(255/ size) * mouse.y}, 0, ${(255/ size) * mouse.x}, .5)`;
-       
-        let now = Date.now();
-        timestamp = now;
    
         if (ppts.length < 6) {
             let b = ppts[0];
