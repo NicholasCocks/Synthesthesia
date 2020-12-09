@@ -102,7 +102,7 @@ window.addEventListener('load', () => {
     }).toDestination();
     sampler.gain = 0.1;
     const reverb = new Tone.Reverb({decay: 7})
-    const fft = new Tone.Analyser()
+    const fft = new Tone.Analyser({size: 256})
     sampler.connect(reverb)
     sampler.connect(fft)
     reverb.toDestination()
@@ -122,7 +122,7 @@ window.addEventListener('load', () => {
     //drawing
     let drawing = false;
     
-    // drawVisualizer()
+    drawVisualizer()
     resizeVisualizer()
 
     function startPosition(e) {
@@ -147,19 +147,10 @@ window.addEventListener('load', () => {
         mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
         mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
         ppts.push({x: mouse.x, y: mouse.y});
-
-        if ((mouse.x > 500 || mouse.x < 0) || (mouse.y > 500 || mouse.y < 0)) {
-            finishedPosition()
-        }
         
-       
         gainNode.gain.exponentialRampToValueAtTime(((mouse.x / size) * 0.1), 0.1);
         gainNode2.gain.exponentialRampToValueAtTime(((mouse.y / size) * 0.1), 0.1);
-        // sampler.volume.value = ((mouse.y / size) * 10);
-        // console.log((mouse.y / size) * 10)
 
-        // oscillator.frequency.exponentialRampToValueAtTime(closest(mouse.x - 20, NOTES), ac.currentTime + 0.01);
-        // oscillator2.frequency.exponentialRampToValueAtTime(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
         sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
         
         ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
@@ -183,28 +174,26 @@ window.addEventListener('load', () => {
 
     function drawVisualizer() {
         requestAnimationFrame(drawVisualizer)
-        
     
-        const bufferLength = fft.frequencyBinCount
-        
-        const dataArray = new Uint8Array(bufferLength)
-        
-        fft.getByteFrequencyData(dataArray)
+        let dataArray = fft.getValue()
         const width = visualizer.width
         const height = visualizer.height
-        const barWidth = width / bufferLength
+        const barWidth = width / 256
 
         const canvasContext = visualizer.getContext('2d')
         canvasContext.clearRect(0, 0, width, height)
         
 
         dataArray.forEach((item, index) => {
-           
-            const y = item / 255 * height
-            const x = barWidth * index 
-
-            canvasContext.fillStyle = `hsl(${y / height * 70}, 100%, 50%)`
-            canvasContext.fillRect(x, height - y, barWidth, y)
+            if (Math.abs(item) !== Infinity) {     
+                
+                const y = Math.abs(item)
+                const x = barWidth * index 
+    
+                canvasContext.fillStyle = `hsl(${y / height * 90 + 150}, 100%, 20%)`
+                canvasContext.fillRect(x, height - y - (height / 2), barWidth, y - item)
+            }
+            
         })
     }    
 
