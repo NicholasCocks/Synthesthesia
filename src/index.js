@@ -1,3 +1,5 @@
+import "./styles/index.scss";
+
 const NOTES = [
     20.60172,
     21.82676,
@@ -174,7 +176,7 @@ window.addEventListener('load', () => {
         }
         ctx.beginPath(), ctx.moveTo(ppts[0].x, ppts[0].y);
         // draw a bunch of quadratics, using the average of two ppts as the control point
-        for (i = 1; i < ppts.length - 2; i++) {
+        for (var i = 1; i < ppts.length - 2; i++) {
             let c = (ppts[i].x + ppts[i + 1].x) / 2,
                 d = (ppts[i].y + ppts[i + 1].y) / 2;
             ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d)
