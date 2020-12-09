@@ -1,5 +1,4 @@
-import "./styles/index.scss";
-import * as Tone from 'tone';
+// const Tone = require('tone')
 
 const NOTES = [
     20.60172,
@@ -74,7 +73,6 @@ window.addEventListener('load', () => {
     const size = 500;
     canvas.style.width = size + "px";
     canvas.style.height = size + "px";
-    canvas.style.backgroundColor = 'black'
     let scale = window.devicePixelRatio;
     canvas.width = Math.floor(size * scale);
     canvas.height = Math.floor(size * scale);
@@ -85,29 +83,17 @@ window.addEventListener('load', () => {
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.shadowBlur = 5;
+    ctx.shadowBlur = 3;
     
     //oscillator
     let oscillator;
     let oscillator2;
-    const sampler = new Tone.Sampler({
-        urls: {
-            A1: "A1.mp3",
-            A2: "A2.mp3",
-        },
-        baseUrl: "https://tonejs.github.io/audio/casio/",
-        onload: () => {
-           
-        }
-    }).toDestination();
-    sampler.gain = 0.1;
-    const reverb = new Tone.Reverb({decay: 7})
-    const fft = new Tone.Analyser()
-    sampler.connect(reverb)
-    sampler.connect(fft)
-    reverb.toDestination()
     const ac = new AudioContext();
     const ac2 = new AudioContext();
+    const analyserNode = new AnalyserNode(ac, { fftSize: 512 })
+    const analyserNode2 = new AnalyserNode(ac2, { fftSize: 512 })
+    analyserNode2.minDecibels = -90;
+    analyserNode2.smoothingTimeConstant = 0.90;
     const panNode = ac.createStereoPanner();
     const panNode2 = ac2.createStereoPanner();
     const gainNode = ac.createGain();
@@ -121,12 +107,29 @@ window.addEventListener('load', () => {
     
     //drawing
     let drawing = false;
+
+    //speed
+    let timestamp = null;
     
-    // drawVisualizer()
+    drawVisualizer()
     resizeVisualizer()
 
     function startPosition(e) {
         drawing = true;
+
+        oscillator = ac.createOscillator()
+        oscillator.type = 'sawtooth'
+        oscillator.connect(panNode)
+        oscillator.connect(analyserNode)
+        oscillator.start(0)
+        console.log(oscillator)
+
+        oscillator2 = ac2.createOscillator();
+        oscillator2.type = 'sawtooth'
+        oscillator2.connect(panNode2)
+        oscillator2.connect(analyserNode2)
+        oscillator2.start(0)
+        console.log(oscillator2)
 
         draw(e);
     }
@@ -134,36 +137,37 @@ window.addEventListener('load', () => {
     function finishedPosition() {
         drawing = false;
         ppts = [];
+        oscillator.stop(0.1)
+        oscillator.disconnect(0.1);
+        oscillator2.stop(0.1)
+        oscillator2.disconnect(0.1);
  
-        
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
 
     }
     
     function draw(e) {
         if(!drawing) return ;
-
         const mouse = {x: 0, y: 0};
         mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
         mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
         ppts.push({x: mouse.x, y: mouse.y});
-
         if ((mouse.x > 500 || mouse.x < 0) || (mouse.y > 500 || mouse.y < 0)) {
             finishedPosition()
         }
-        
        
         gainNode.gain.exponentialRampToValueAtTime(((mouse.x / size) * 0.1), 0.1);
         gainNode2.gain.exponentialRampToValueAtTime(((mouse.y / size) * 0.1), 0.1);
-        // sampler.volume.value = ((mouse.y / size) * 10);
-        // console.log((mouse.y / size) * 10)
 
-        // oscillator.frequency.exponentialRampToValueAtTime(closest(mouse.x - 20, NOTES), ac.currentTime + 0.01);
-        // oscillator2.frequency.exponentialRampToValueAtTime(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
-        sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
-        
+        oscillator.frequency.exponentialRampToValueAtTime(closest(mouse.x - 20, NOTES), ac.currentTime + 0.01);
+        oscillator2.frequency.exponentialRampToValueAtTime(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
+       
         ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
         ctx.shadowColor = `rgba(${(255/ size) * mouse.y}, 0, ${(255/ size) * mouse.x}, .5)`;
+       
+        let now = Date.now();
+        timestamp = now;
    
         if (ppts.length < 6) {
             let b = ppts[0];
@@ -172,7 +176,7 @@ window.addEventListener('load', () => {
         }
         ctx.beginPath(), ctx.moveTo(ppts[0].x, ppts[0].y);
         // draw a bunch of quadratics, using the average of two ppts as the control point
-        for (var i = 1; i < ppts.length - 2; i++) {
+        for (i = 1; i < ppts.length - 2; i++) {
             let c = (ppts[i].x + ppts[i + 1].x) / 2,
                 d = (ppts[i].y + ppts[i + 1].y) / 2;
             ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d)
@@ -183,13 +187,11 @@ window.addEventListener('load', () => {
 
     function drawVisualizer() {
         requestAnimationFrame(drawVisualizer)
-        
     
-        const bufferLength = fft.frequencyBinCount
-        
+        const bufferLength = analyserNode2.frequencyBinCount
         const dataArray = new Uint8Array(bufferLength)
-        
-        fft.getByteFrequencyData(dataArray)
+        analyserNode2.getByteFrequencyData(dataArray)
+   
         const width = visualizer.width
         const height = visualizer.height
         const barWidth = width / bufferLength
@@ -199,7 +201,6 @@ window.addEventListener('load', () => {
         
 
         dataArray.forEach((item, index) => {
-           
             const y = item / 255 * height
             const x = barWidth * index 
 
@@ -222,5 +223,10 @@ window.addEventListener('load', () => {
         return false;
     })
     container.addEventListener('mouseover', finishedPosition)
+    canvas.addEventListener('dblclick', () => {
+        console.log('dblclick')
+        console.log(ac)
+    })
    
 });
+
