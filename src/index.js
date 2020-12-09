@@ -154,8 +154,7 @@ function draw(e) {
 
     sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
     
-    ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
-    // ctx.shadowColor = `rgba(${(255/ size) * mouse.y}, 0, ${(255/ size) * mouse.x}, .5)`;
+    ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 0)`;
 
     if (ppts.length < 6) {
         let b = ppts[0];
