@@ -1,5 +1,3 @@
-// const Tone = require('tone')
-
 const NOTES = [
     20.60172,
     21.82676,
