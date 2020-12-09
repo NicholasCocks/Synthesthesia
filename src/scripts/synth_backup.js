@@ -238,13 +238,6 @@ canvas.addEventListener('dblclick', () => {
     })
     queue = [];
 })
-// container.addEventListener('dblclick', () => {
-//     console.log('dblclick')
-//     queue.forEach((oscillator) => {
-//         oscillator.stop()
-//         oscillator.disconnect()
-//     })
-// })
 container.addEventListener('mouseover', finishedPosition)
    
 

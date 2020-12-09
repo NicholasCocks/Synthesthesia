@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+      integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
   </head>
 
@@ -14,7 +20,32 @@
         
       <canvas id="canvas"></canvas>
       <canvas id="visualizer1"></canvas>
-      <p id="author">by Nicholas Cocks</p>
+      
+      <span class="about_icon">
+      <i class="fas fa-question-circle"></i>
+      </span>
+      <div class="about_tab inactive">
+        <p><i>Please use headphones and a mouse for best experience.</i></p>
+        <h3>Controls</h3>
+        <div class="control_line">
+          <p>Left Click: </p>
+          <p>Draw.</p>
+        </div>
+        <div class="control_line">
+          <p>Right Click:</p>
+          <p>Erase board.</p>
+        </div>
+        <h3>Synth Brush Controls</h3>
+        <div class="control_line">
+          <p>Left + Right Click:</p>
+          <p>Hold note.</p>
+        </div>
+        <div class="control_line">
+          <p>Double Click:</p>
+          <p>Clear notes.</p>
+        </div>
+      </div>
+      <div id="author"><p>by </p> <a href="#" > Nicholas Cocks</a></div>
     </div>
     
     <script src="./dist/main.js"></script>

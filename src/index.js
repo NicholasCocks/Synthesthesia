@@ -1,4 +1,5 @@
 import "./styles/index.scss";
+import './scripts/about_tab';
 
 const NOTES = [
     20.60172,

@@ -17,6 +17,7 @@
   "author": "mrcjbradley",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "tone": "^14.7.58"
   },
   "devDependencies": {
