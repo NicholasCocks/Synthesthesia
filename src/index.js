@@ -74,6 +74,7 @@ window.addEventListener('load', () => {
     const size = 500;
     canvas.style.width = size + "px";
     canvas.style.height = size + "px";
+    canvas.style.backgroundColor = 'black'
     let scale = window.devicePixelRatio;
     canvas.width = Math.floor(size * scale);
     canvas.height = Math.floor(size * scale);
@@ -89,10 +90,24 @@ window.addEventListener('load', () => {
     //oscillator
     let oscillator;
     let oscillator2;
+    const sampler = new Tone.Sampler({
+        urls: {
+            A1: "A1.mp3",
+            A2: "A2.mp3",
+        },
+        baseUrl: "https://tonejs.github.io/audio/casio/",
+        onload: () => {
+           
+        }
+    }).toDestination();
+    sampler.gain = 0.1;
+    const reverb = new Tone.Reverb({decay: 7})
+    const fft = new Tone.Analyser()
+    sampler.connect(reverb)
+    sampler.connect(fft)
+    reverb.toDestination()
     const ac = new AudioContext();
     const ac2 = new AudioContext();
-    const analyserNode = new AnalyserNode(ac, { fftSize: 512 })
-    const analyserNode2 = new AnalyserNode(ac2, { fftSize: 512 })
     const panNode = ac.createStereoPanner();
     const panNode2 = ac2.createStereoPanner();
     const gainNode = ac.createGain();
@@ -107,25 +122,11 @@ window.addEventListener('load', () => {
     //drawing
     let drawing = false;
     
-    drawVisualizer()
+    // drawVisualizer()
     resizeVisualizer()
 
     function startPosition(e) {
         drawing = true;
-
-        oscillator = ac.createOscillator()
-        oscillator.type = 'sawtooth'
-        oscillator.connect(panNode)
-        oscillator.connect(analyserNode)
-        oscillator.start(0)
-      
-
-        oscillator2 = ac2.createOscillator();
-        oscillator2.type = 'sawtooth'
-        oscillator2.connect(panNode2)
-        oscillator2.connect(analyserNode2)
-        oscillator2.start(0)
-     
 
         draw(e);
     }
@@ -133,12 +134,8 @@ window.addEventListener('load', () => {
     function finishedPosition() {
         drawing = false;
         ppts = [];
-        oscillator.stop(0.1)
-        oscillator.disconnect(0.1);
-        oscillator2.stop(0.1)
-        oscillator2.disconnect(0.1);
  
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
         ctx.beginPath();
 
     }
@@ -154,13 +151,17 @@ window.addEventListener('load', () => {
         if ((mouse.x > 500 || mouse.x < 0) || (mouse.y > 500 || mouse.y < 0)) {
             finishedPosition()
         }
+        
        
         gainNode.gain.exponentialRampToValueAtTime(((mouse.x / size) * 0.1), 0.1);
         gainNode2.gain.exponentialRampToValueAtTime(((mouse.y / size) * 0.1), 0.1);
+        // sampler.volume.value = ((mouse.y / size) * 10);
+        // console.log((mouse.y / size) * 10)
 
-        oscillator.frequency.exponentialRampToValueAtTime(closest(mouse.x - 20, NOTES), ac.currentTime + 0.01);
-        oscillator2.frequency.exponentialRampToValueAtTime(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
-       
+        // oscillator.frequency.exponentialRampToValueAtTime(closest(mouse.x - 20, NOTES), ac.currentTime + 0.01);
+        // oscillator2.frequency.exponentialRampToValueAtTime(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
+        sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
+        
         ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
         ctx.shadowColor = `rgba(${(255/ size) * mouse.y}, 0, ${(255/ size) * mouse.x}, .5)`;
    
@@ -182,11 +183,13 @@ window.addEventListener('load', () => {
 
     function drawVisualizer() {
         requestAnimationFrame(drawVisualizer)
-    
-        const bufferLength = analyserNode2.frequencyBinCount
-        const dataArray = new Uint8Array(bufferLength)
-        analyserNode2.getByteFrequencyData(dataArray)
         
+    
+        const bufferLength = fft.frequencyBinCount
+        
+        const dataArray = new Uint8Array(bufferLength)
+        
+        fft.getByteFrequencyData(dataArray)
         const width = visualizer.width
         const height = visualizer.height
         const barWidth = width / bufferLength
@@ -196,6 +199,7 @@ window.addEventListener('load', () => {
         
 
         dataArray.forEach((item, index) => {
+           
             const y = item / 255 * height
             const x = barWidth * index 
 
@@ -212,6 +216,11 @@ window.addEventListener('load', () => {
     canvas.addEventListener('mousedown', startPosition)
     canvas.addEventListener('mouseup', finishedPosition)
     canvas.addEventListener('mousemove', draw)
+    canvas.addEventListener('contextmenu', (e) => {
+        e.preventDefault()
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return false;
+    })
     container.addEventListener('mouseover', finishedPosition)
    
 });
