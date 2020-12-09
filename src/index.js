@@ -48,6 +48,7 @@ const NOTES = [
     1567.982,
     1760.000,
 ]
+
 function closest(needle, haystack) {
     return haystack.reduce((a, b) => {
         let aDiff = Math.abs(a - Math.abs(needle));
@@ -60,16 +61,13 @@ function closest(needle, haystack) {
         }
     });
 }
+    
 
-
-window.addEventListener('load', () => {
-    //ppts
-    let ppts = [];
-
-    //canvas
     const canvas = document.querySelector('#canvas')
     const visualizer = document.querySelector('#visualizer1')
     const container = document.querySelector('#page_container')
+    
+    //canvas
     const size = 500;
     canvas.style.width = size + "px";
     canvas.style.height = size + "px";
@@ -90,7 +88,6 @@ window.addEventListener('load', () => {
     let oscillator2;
     const ac = new AudioContext();
     const ac2 = new AudioContext();
-    const analyserNode = new AnalyserNode(ac, { fftSize: 512 })
     const analyserNode2 = new AnalyserNode(ac2, { fftSize: 512 })
     analyserNode2.minDecibels = -90;
     analyserNode2.smoothingTimeConstant = 0.90;
@@ -105,14 +102,13 @@ window.addEventListener('load', () => {
     gainNode.connect(ac.destination);
     gainNode2.connect(ac2.destination);
     
+    //ppts
+    let ppts = [];
+
     //drawing
     let drawing = false;
-
-    //speed
-    let timestamp = null;
     
-    drawVisualizer()
-    resizeVisualizer()
+   
 
     function startPosition(e) {
         drawing = true;
@@ -120,16 +116,13 @@ window.addEventListener('load', () => {
         oscillator = ac.createOscillator()
         oscillator.type = 'sawtooth'
         oscillator.connect(panNode)
-        oscillator.connect(analyserNode)
         oscillator.start(0)
-        console.log(oscillator)
 
         oscillator2 = ac2.createOscillator();
         oscillator2.type = 'sawtooth'
         oscillator2.connect(panNode2)
         oscillator2.connect(analyserNode2)
         oscillator2.start(0)
-        console.log(oscillator2)
 
         draw(e);
     }
@@ -137,25 +130,23 @@ window.addEventListener('load', () => {
     function finishedPosition() {
         drawing = false;
         ppts = [];
+
         oscillator.stop(0.1)
         oscillator.disconnect(0.1);
         oscillator2.stop(0.1)
         oscillator2.disconnect(0.1);
  
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
-
     }
     
     function draw(e) {
         if(!drawing) return ;
+
         const mouse = {x: 0, y: 0};
         mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
         mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+        
         ppts.push({x: mouse.x, y: mouse.y});
-        if ((mouse.x > 500 || mouse.x < 0) || (mouse.y > 500 || mouse.y < 0)) {
-            finishedPosition()
-        }
        
         gainNode.gain.exponentialRampToValueAtTime(((mouse.x / size) * 0.1), 0.1);
         gainNode2.gain.exponentialRampToValueAtTime(((mouse.y / size) * 0.1), 0.1);
@@ -166,14 +157,12 @@ window.addEventListener('load', () => {
         ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 155)`;
         ctx.shadowColor = `rgba(${(255/ size) * mouse.y}, 0, ${(255/ size) * mouse.x}, .5)`;
        
-        let now = Date.now();
-        timestamp = now;
-   
         if (ppts.length < 6) {
             let b = ppts[0];
             ctx.beginPath(), ctx.arc(b.x, b.y, ctx.lineWidth / 2, 0, Math.PI * 2, !0), ctx.closePath(), ctx.fill();
             return
         }
+        
         ctx.beginPath(), ctx.moveTo(ppts[0].x, ppts[0].y);
         // draw a bunch of quadratics, using the average of two ppts as the control point
         for (var i = 1; i < ppts.length - 2; i++) {
@@ -213,20 +202,21 @@ window.addEventListener('load', () => {
         visualizer.width = visualizer.clientWidth * scale
         visualizer.height = visualizer.clientHeight * scale
     }
+
+    drawVisualizer()
+    resizeVisualizer()
     
     canvas.addEventListener('mousedown', startPosition)
     canvas.addEventListener('mouseup', finishedPosition)
+    container.addEventListener('mouseover', finishedPosition)
     canvas.addEventListener('mousemove', draw)
     canvas.addEventListener('contextmenu', (e) => {
         e.preventDefault()
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         return false;
     })
-    container.addEventListener('mouseover', finishedPosition)
     canvas.addEventListener('dblclick', () => {
         console.log('dblclick')
-        console.log(ac)
     })
    
-});
 
