@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -26,11 +28,66 @@ body {
     bottom: 0;
 }
 
-#author {
+.about_icon {
+    font-size: 30px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+
+.about_icon:hover {
+    color: rgb(185, 127, 50);
+}
+
+.active_icon {
+    color: rgb(185, 127, 50);
+}
+
+.about_tab {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 16%;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: rgba(77, 53, 107, 0.1);
+    box-shadow: 5px 5px 4px #e4e4e4;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: small;
+    font-size: small; 
+    font-weight: 400;
+    position: absolute;
+    top: 45px;
+    right: 7px;
+    p {
+        margin: 2px;
+    }
+}
+
+.inactive {
+    display: none;
+} 
+
+.control_line {
+    display: flex;
+    justify-content: space-between;
+}
+
+#author {
+    display: flex;
+    align-items: center;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 25px;
     font-weight: 550;
     position: absolute;
-    bottom: 0px;
-    right: 5px;
+    bottom: 7px;
+    right: 7px;
+    color: black;
+    p {
+        margin: 0;
+        margin-right: 7px;
+    }
+    a {
+        color: black;
+    }
 }
+
