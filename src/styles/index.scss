@@ -43,6 +43,7 @@ body {
     bottom: 7px;
     left: 7px;
     display: flex;
+    font-size: small;
     p {
         height: 50px;
         line-height: 50px;
@@ -72,6 +73,17 @@ body {
         top: 22px;
         content: "n=0";
         width: 22px; 
+    }
+    div {
+        font-size: small;
+        border-bottom: 1px solid black;
+        height: 16px;
+    }
+    div:after {
+        position: absolute;
+        top: 19px;
+        right: 20px;
+        content: 'N';
     }
     aside {
         display: inline;
@@ -143,6 +155,9 @@ body {
     }
     a {
         color: black;
+    }
+    a:hover {
+        color: rgb(224, 120, 0);
     }
 }
 
