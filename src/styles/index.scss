@@ -43,13 +43,41 @@ body {
     bottom: 7px;
     left: 7px;
     display: flex;
-    align-items: center;
     p {
+        height: 50px;
+        line-height: 50px;
         margin: 0;
-        margin-left: 4px;
-        margin-right: 4px;
     }
+    span {
+        position: relative;
+        font-size: 2.5em;
+        display: inline-block;
+        line-height: .3em;
+        vertical-align: middle;
+    }
+    span:before {
+        font-size: 12px;
+        display: block;
+        position: absolute;
+        left: 3px;
+        bottom: 22px;
+        content: "N-1";
+        width: 22px; 
+    }
+    span:after {
+        font-size: 12px;
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 22px;
+        content: "n=0";
+        width: 22px; 
+    }
+    
+    
 }
+
+
 
 .about_icon {
     font-size: 30px;
@@ -59,11 +87,11 @@ body {
 }
 
 .about_icon:hover {
-    color: rgb(185, 127, 50);
+    color: rgb(224, 120, 0);
 }
 
 .active_icon {
-    color: rgb(185, 127, 50);
+    color: rgb(224, 120, 0);
 }
 
 .about_tab {
@@ -73,7 +101,7 @@ body {
     width: 16%;
     padding: 8px;
     border-radius: 10px;
-    background-color: rgba(77, 53, 107, 0.1);
+    background-color: rgba(109, 42, 192, 0.1);
     box-shadow: 5px 5px 4px #e4e4e4;
     font-family: Arial, Helvetica, sans-serif;
     font-size: small; 

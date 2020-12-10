@@ -11,6 +11,7 @@
       integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
       crossorigin="anonymous"
     />
+    
     <title>Document</title>
   </head>
 
@@ -22,15 +23,18 @@
       <canvas id="visualizer1"></canvas>
       
       <div class="equation_container">
-        <math>
-            <item>F<sub>512</sub> 
-        </math>
-        <p> = </p>
-        <span>&#8721;</span>
-        <item> x<sub>512</sub> 
-        <box><span>&#8337;</span>-(V<sub>in</sub>-V<sub>out</sub>)<over>2</over></box>
-         <p>*</p>  
-        <!--  -->
+        <p>F<sub>
+          <select id="samples">
+            <option value="512">512</option>
+            <option value="256" selected>256</option>
+            <option value="128">128</option>
+            <option value="64">64</option>
+          </select>
+        </sub> =</p>
+        <p>
+          <span>&Sigma;</span>  
+        </p>
+        <p>x<sub>n</sub>* e <div>-(j2πkn)/N</div></p>
       </div>
 
       <span class="about_icon">
@@ -59,6 +63,7 @@
       </div>
       <div id="author"><p>by </p> <a href="#" > Nicholas Cocks</a></div>
     </div>
+    
     
     <script src="./dist/main.js"></script>
   </body>

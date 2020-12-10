@@ -63,6 +63,11 @@ function closest(needle, haystack) {
     });
 }
 
+function val() {
+    sampleValue = document.getElementById('samples').value;
+    console.log(sampleValue)
+}
+
 //ppts
 let ppts = [];
 
@@ -70,10 +75,12 @@ let ppts = [];
 const canvas = document.querySelector('#canvas')
 const visualizer = document.querySelector('#visualizer1')
 const container = document.querySelector('#page_container')
+const samples = document.querySelector('#samples')
+let sampleValue = samples.options[samples.selectedIndex].value;
+console.log(sampleValue)
 const size = 500;
 canvas.style.width = size + "px";
 canvas.style.height = size + "px";
-// canvas.style.backgroundColor = 'black'
 let scale = window.devicePixelRatio;
 canvas.width = Math.floor(size * scale);
 canvas.height = Math.floor(size * scale);
@@ -100,7 +107,7 @@ const gainNode3 = new Tone.Gain(0.1).toDestination()
 sampler.connect(gainNode3)
 const reverb = new Tone.JCReverb({decay: 7})
 const delay = new Tone.PingPongDelay({delayTime: 0.25, maxDelayTime: 1})
-const fft = new Tone.Analyser({size: 256, smoothing: 0.8})
+const fft = new Tone.Analyser({size: 512, smoothing: 0.8})
 sampler.connect(delay)
 sampler.connect(reverb)
 sampler.connect(fft)
@@ -109,6 +116,7 @@ reverb.connect(gainNode3)
 
 //drawing
 let drawing = false;
+let debounce = 0;
 
 resizeVisualizer()
 drawVisualizer()
@@ -128,6 +136,8 @@ function finishedPosition() {
     ctx.beginPath();
 }
 
+
+
 function draw(e) {
     if(!drawing) return ;
 
@@ -137,7 +147,11 @@ function draw(e) {
     ppts.push({x: mouse.x, y: mouse.y});
 
     const now = Tone.now()
-    sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), now + 0.5);
+    debounce += 1
+    if (debounce === 4) {
+        debounce = 0
+        sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), now + 0.5);
+    }
     
     ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 0)`;
 
@@ -163,11 +177,10 @@ function drawVisualizer() {
     let dataArray = fft.getValue()
     const width = visualizer.width
     const height = visualizer.height
-    const barWidth = width / 256
+    const barWidth = width / sampleValue
      
     const canvasContext = visualizer.getContext('2d');
     canvasContext.clearRect(0, 0, width, height)
-    // canvasContext.fillText(dataArray)
 
     dataArray.forEach((item, index) => {
         if (Math.abs(item) !== Infinity) {     
@@ -175,7 +188,6 @@ function drawVisualizer() {
             const y = Math.abs(item)
             const x = barWidth * index 
 
-            // canvasContext.fillText(item)
             canvasContext.fillStyle = `hsl(${y / height * 90 + 150}, 100%, ${(y/ height) * 100}%)`
             canvasContext.fillRect(x, height - y - (height / 2), barWidth, y - item)
         }
@@ -188,6 +200,8 @@ function resizeVisualizer() {
     visualizer.height = visualizer.clientHeight * scale
 }
 
+
+
 canvas.addEventListener('mousedown', startPosition)
 canvas.addEventListener('mouseup', finishedPosition)
 canvas.addEventListener('mousemove', draw)
@@ -197,4 +211,4 @@ canvas.addEventListener('contextmenu', (e) => {
     return false;
 })
 container.addEventListener('mouseover', finishedPosition)
-   
+samples.addEventListener('change', val)
