@@ -65,7 +65,7 @@ function closest(needle, haystack) {
 
 function val() {
     sampleValue = document.getElementById('samples').value;
-    console.log(sampleValue)
+    document.getElementById('ksamples').innerText = sampleValue
 }
 
 //ppts

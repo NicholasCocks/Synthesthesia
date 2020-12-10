@@ -73,8 +73,12 @@ body {
         content: "n=0";
         width: 22px; 
     }
-    
-    
+    aside {
+        display: inline;
+    }
+    select {
+        background-color: rgba(109, 42, 192, 0.0);
+    }
 }
 
 
