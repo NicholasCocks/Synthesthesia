@@ -1,5 +1,6 @@
 import "./styles/index.scss";
 import * as Tone from 'tone';
+import './scripts/about_tab';
 
 const NOTES = [
     20.60172,
@@ -62,8 +63,6 @@ function closest(needle, haystack) {
     });
 }
 
-
-
 //ppts
 let ppts = [];
 
@@ -87,9 +86,6 @@ ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
 ctx.shadowBlur = 5;
 
-//oscillator
-let oscillator;
-let oscillator2;
 const sampler = new Tone.Sampler({
     urls: {
         A1: "A1.mp3",
@@ -103,22 +99,13 @@ const sampler = new Tone.Sampler({
 const gainNode3 = new Tone.Gain(0.1).toDestination()
 sampler.connect(gainNode3)
 const reverb = new Tone.JCReverb({decay: 7})
-const fft = new Tone.Analyser({size: 256})
+const delay = new Tone.PingPongDelay({delayTime: 0.25, maxDelayTime: 1})
+const fft = new Tone.Analyser({size: 256, smoothing: 0.8})
+sampler.connect(delay)
 sampler.connect(reverb)
 sampler.connect(fft)
+delay.connect(gainNode3)
 reverb.connect(gainNode3)
-const ac = new AudioContext();
-const ac2 = new AudioContext();
-const panNode = ac.createStereoPanner();
-const panNode2 = ac2.createStereoPanner();
-const gainNode = ac.createGain();
-const gainNode2 = ac2.createGain();
-panNode.pan.value = 1;
-panNode2.pan.value = -1;
-panNode.connect(gainNode);
-panNode2.connect(gainNode2);
-gainNode.connect(ac.destination);
-gainNode2.connect(ac2.destination);
 
 //drawing
 let drawing = false;
@@ -127,18 +114,18 @@ drawVisualizer()
 resizeVisualizer()
 
 function startPosition(e) {
-    drawing = true;
+    if (e.which === 1) {
+        drawing = true;
 
-    draw(e);
+        draw(e);
+    }
 }
 
 function finishedPosition() {
     drawing = false;
     ppts = [];
 
-    
     ctx.beginPath();
-
 }
 
 function draw(e) {
@@ -148,11 +135,9 @@ function draw(e) {
     mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
     mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
     ppts.push({x: mouse.x, y: mouse.y});
-    
-    gainNode.gain.exponentialRampToValueAtTime(((mouse.x / size) * 0.1), 0.1);
-    gainNode2.gain.exponentialRampToValueAtTime(((mouse.y / size) * 0.1), 0.1);
 
-    sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), ac2.currentTime + 0.01);
+    const now = Tone.now()
+    sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), now + 0.5);
     
     ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 0)`;
 
@@ -182,6 +167,7 @@ function drawVisualizer() {
      
     const canvasContext = visualizer.getContext('2d');
     canvasContext.clearRect(0, 0, width, height)
+    // canvasContext.fillText(dataArray)
 
     dataArray.forEach((item, index) => {
         if (Math.abs(item) !== Infinity) {     
@@ -189,6 +175,7 @@ function drawVisualizer() {
             const y = Math.abs(item)
             const x = barWidth * index 
 
+            // canvasContext.fillText(item)
             canvasContext.fillStyle = `hsl(${y / height * 90 + 150}, 100%, ${(y/ height) * 100}%)`
             canvasContext.fillRect(x, height - y - (height / 2), barWidth, y - item)
         }
