@@ -38,6 +38,19 @@ body {
     font-size: 40px;
 }
 
+.equation_container {
+    position: absolute;
+    bottom: 7px;
+    left: 7px;
+    display: flex;
+    align-items: center;
+    p {
+        margin: 0;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+}
+
 .about_icon {
     font-size: 30px;
     position: absolute;

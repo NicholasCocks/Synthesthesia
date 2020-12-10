@@ -110,8 +110,8 @@ reverb.connect(gainNode3)
 //drawing
 let drawing = false;
 
-drawVisualizer()
 resizeVisualizer()
+drawVisualizer()
 
 function startPosition(e) {
     if (e.which === 1) {
