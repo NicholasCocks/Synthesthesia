@@ -164,6 +164,15 @@ function draw(e) {
             ctx.strokeStyle = `hsl(${(75/ (size)) * mouse.x}, 55%, 50%)`;
             ctx.shadowColor = `hsl(${(75/ (size)) * mouse.x}, 55%, 50%)`
             break;
+        case 'brush5':
+            let grad = ctx.createLinearGradient(150, 0, 280, 0);
+            grad.addColorStop("0","rgba(255, 200, 0, 1)");
+            grad.addColorStop("0.66", "rgba(174, 0, 255, 1)");
+            grad.addColorStop("1", "rgba(13, 0, 200, 1)");
+            ctx.strokeStyle = grad;
+            ctx.shadowBlur = 0;
+            ctx.lineWidth = '5';
+            break;
         default:
             ctx.strokeStyle = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
             ctx.shadowColor = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
