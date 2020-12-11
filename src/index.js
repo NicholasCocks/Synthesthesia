@@ -71,6 +71,10 @@ function val() {
 //ppts
 let ppts = [];
 
+//drawing
+let drawing = false;
+let debounce = 0;
+
 //canvas
 const canvas = document.querySelector('#canvas')
 const visualizer = document.querySelector('#visualizer1')
@@ -92,6 +96,7 @@ ctx.lineWidth = 2;
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
 ctx.shadowBlur = 3;
+let brushColor = document.querySelector('input[name=color]:checked').value;
 
 const sampler = new Tone.Sampler({
     urls: {
@@ -113,10 +118,6 @@ sampler.connect(reverb)
 sampler.connect(fft)
 delay.connect(gainNode3)
 reverb.connect(gainNode3)
-
-//drawing
-let drawing = false;
-let debounce = 0;
 
 function startPosition(e) {
     if (e.which === 1) {
@@ -149,9 +150,18 @@ function draw(e) {
         debounce = 0
         sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), now + 0.5);
     }
-    
-    ctx.strokeStyle = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
-    ctx.shadowColor = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
+     //239, 59%, 33%
+     switch(brushColor) {
+        case 'default':
+            ctx.strokeStyle = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
+            ctx.shadowColor = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
+            break;
+        case 'brush2':
+            ctx.strokeStyle = `hsl(${(200/ size) * mouse.x}, 55%, 37%)`;
+            ctx.shadowColor = `hsl(${(200/ size) * mouse.x}, 55%, 37%)`;
+            break;
+     }
+
 
     if (ppts.length < 6) {
         let b = ppts[0];
@@ -211,3 +221,10 @@ canvas.addEventListener('contextmenu', (e) => {
 })
 container.addEventListener('mouseover', finishedPosition)
 samples.addEventListener('change', val)
+
+document.querySelectorAll('input[name=color]')
+    .forEach(radio => {
+        radio.addEventListener('change', () => {
+            brushColor = document.querySelector('input[name=color]:checked').value;
+        })
+    });
