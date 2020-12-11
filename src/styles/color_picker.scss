@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 80px;
+    height: 140px;
     position: absolute;
     right: 7px;
     top: 20%;
@@ -46,9 +46,17 @@
 }
 
 #default_span {
-    background-image: linear-gradient(to right, hsl(0, 57%, 40%) , hsl(239, 59%, 33%));
+    background-image: linear-gradient(to right,  hsl(239, 59%, 33%), hsl(0, 57%, 40%));
 }
 
 #brush2_span {
     background-image: linear-gradient(to right, hsl(143, 57%, 40%) , hsl(7, 59%, 33%));
+}
+
+#brush3_span {
+    background-image: linear-gradient(to right,  hsl(155, 42%, 42%), hsl(226, 59%, 33%));
+}
+
+#brush4_span {
+    background-image: linear-gradient(to right,  hsl(12, 57%, 40%), hsl(54, 59%, 33%));
 }

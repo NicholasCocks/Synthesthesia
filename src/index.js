@@ -152,13 +152,21 @@ function draw(e) {
     }
      //239, 59%, 33%
      switch(brushColor) {
-        case 'default':
+        case 'brush2':
+            ctx.strokeStyle = `hsl(${(160/ size) * mouse.x}, 55%, 37%)`;
+            ctx.shadowColor = `hsl(${(160/ size) * mouse.x}, 55%, 37%)`;
+            break;
+        case 'brush3':
+            ctx.strokeStyle =  `rgb(40, ${(255/ size) * mouse.y}, ${(200/ size) * mouse.x})`;
+            ctx.shadowColor = `rgb(40, ${(255/ size) * mouse.y}, ${(200/ size) * mouse.x})`;
+            break;
+        case 'brush4':
+            ctx.strokeStyle = `hsl(${(75/ (size)) * mouse.x}, 55%, 50%)`;
+            ctx.shadowColor = `hsl(${(75/ (size)) * mouse.x}, 55%, 50%)`
+            break;
+        default:
             ctx.strokeStyle = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
             ctx.shadowColor = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
-            break;
-        case 'brush2':
-            ctx.strokeStyle = `hsl(${(200/ size) * mouse.x}, 55%, 37%)`;
-            ctx.shadowColor = `hsl(${(200/ size) * mouse.x}, 55%, 37%)`;
             break;
      }
 
