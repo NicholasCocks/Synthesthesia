@@ -77,7 +77,7 @@ const visualizer = document.querySelector('#visualizer1')
 const container = document.querySelector('#page_container')
 const samples = document.querySelector('#samples')
 let sampleValue = samples.options[samples.selectedIndex].value;
-console.log(sampleValue)
+
 const size = 500;
 canvas.style.width = size + "px";
 canvas.style.height = size + "px";
@@ -91,7 +91,7 @@ ctx.scale(scale, scale);
 ctx.lineWidth = 2;
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
-ctx.shadowBlur = 5;
+ctx.shadowBlur = 3;
 
 const sampler = new Tone.Sampler({
     urls: {
@@ -117,9 +117,6 @@ reverb.connect(gainNode3)
 //drawing
 let drawing = false;
 let debounce = 0;
-
-resizeVisualizer()
-drawVisualizer()
 
 function startPosition(e) {
     if (e.which === 1) {
@@ -153,7 +150,8 @@ function draw(e) {
         sampler.triggerAttackRelease(closest(mouse.y - 20, NOTES), now + 0.5);
     }
     
-    ctx.strokeStyle = `rgb(${(255/ size) * mouse.x}, ${(255/ size) * mouse.y}, 0)`;
+    ctx.strokeStyle = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
+    ctx.shadowColor = `rgb(${(200/ size) * mouse.x}, 40, ${(255/ size) * mouse.y})`;
 
     if (ppts.length < 6) {
         let b = ppts[0];
@@ -200,7 +198,8 @@ function resizeVisualizer() {
     visualizer.height = visualizer.clientHeight * scale
 }
 
-
+resizeVisualizer()
+drawVisualizer()
 
 canvas.addEventListener('mousedown', startPosition)
 canvas.addEventListener('mouseup', finishedPosition)

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="src/images/favicon-32x32.png" type="image/png">
     <link rel="stylesheet" href="./dist/main.css" />
     <link
       rel="stylesheet"
@@ -37,6 +38,13 @@
         <p>x<sub>n</sub>* e <div>- j2π<aside id="ksamples">256</aside>n</div></p>
       </div>
 
+      <div class="color_picker_container">
+        <input type="radio" name="color" id="default" value="default" checked="checked"/>
+        <label for="default"><span class="default"></span></label>
+        <input type="radio" name="color" id="red" value="#DB2828" />
+        <label for="red"><span class="red"></span></label>
+      </div>
+
       <span class="about_icon">
       <i class="fas fa-question-circle"></i>
       </span>
@@ -51,14 +59,13 @@
           <p>Right Click:</p>
           <p>Erase board.</p>
         </div>
-        <h3>Synth Brush Controls</h3>
+        <h3>About the project</h3>
         <div class="control_line">
-          <p>Left + Right Click:</p>
-          <p>Hold note.</p>
-        </div>
-        <div class="control_line">
-          <p>Double Click:</p>
-          <p>Clear notes.</p>
+          <p>The Fast Fourier Transform (FFT) which you can see at the bottom left of the screen 
+            is an algorithm that converts a signal from it's 'original domain' to a representation in the 
+          frequency domain. This algorithm is used in everything from image and audio compression to the frequency analyzer
+        you see when you sketch. This implementation allows you to adjust the number of data points and therefore the 
+      width of the bars.</p>
         </div>
       </div>
       <div id="author"><p>by </p> <a href="https://github.com/NickDjukic/">Nicholas Cocks</a></div>

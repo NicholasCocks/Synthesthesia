@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap');
 
+$colors: (
+  red: #DB2828,
+  orange: #F2711C,
+  yellow: #FBBD08,
+  olive: #B5CC18,
+  green: #21BA45,
+  teal: #00B5AD,
+  blue: #2185D0,
+  violet: #6435C9,
+  purple: #A333C8,
+  pink: #E03997
+);
+
 body {
     margin: 0;
     padding: 0;
@@ -93,7 +106,17 @@ body {
     }
 }
 
-
+.color_picker_container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 7px;
+    top: 20%;
+    input {
+        span { transform: scale(1.25);}
+        
+    }
+}
 
 .about_icon {
     font-size: 30px;
@@ -117,16 +140,23 @@ body {
     width: 16%;
     padding: 8px;
     border-radius: 10px;
-    background-color: rgba(143, 99, 197, 0.5);
+    background-color: rgb(230, 230, 230);
+    z-index: 5;
     box-shadow: 5px 5px 4px #e4e4e4;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: small; 
+    font-size: medium; 
     font-weight: 400;
     position: absolute;
     top: 45px;
     right: 7px;
     p {
         margin: 2px;
+    }
+    h3 {
+        margin: 7px;
+        font-size: 30px;
+        font-weight: 100;
+        font-family: 'Reenie Beanie', cursive;
     }
 }
 
