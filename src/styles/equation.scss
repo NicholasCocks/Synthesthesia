@@ -1,0 +1,54 @@
+.equation_container {
+    position: absolute;
+    bottom: 7px;
+    left: 7px;
+    display: flex;
+    font-size: small;
+    p {
+        height: 50px;
+        line-height: 50px;
+        margin: 0;
+    }
+    span {
+        position: relative;
+        font-size: 2.5em;
+        display: inline-block;
+        line-height: .3em;
+        vertical-align: middle;
+    }
+    span:before {
+        font-size: 12px;
+        display: block;
+        position: absolute;
+        left: 3px;
+        bottom: 22px;
+        content: "N-1";
+        width: 22px; 
+    }
+    span:after {
+        font-size: 12px;
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 22px;
+        content: "n=0";
+        width: 22px; 
+    }
+    div {
+        font-size: small;
+        border-bottom: 1px solid black;
+        height: 16px;
+    }
+    div:after {
+        position: absolute;
+        top: 19px;
+        right: 20px;
+        content: 'N';
+    }
+    aside {
+        display: inline;
+    }
+    select {
+        background-color: rgba(109, 42, 192, 0.0);
+    }
+}

@@ -1,0 +1,50 @@
+.about_icon {
+    font-size: 30px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+
+.about_icon:hover {
+    color: rgb(224, 120, 0);
+}
+
+.active_icon {
+    color: rgb(224, 120, 0);
+}
+
+.about_tab {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 16%;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: rgb(230, 230, 230);
+    z-index: 5;
+    box-shadow: 5px 5px 4px #e4e4e4;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium; 
+    font-weight: 400;
+    position: absolute;
+    top: 45px;
+    right: 7px;
+    p {
+        margin: 2px;
+    }
+    h3 {
+        margin: 7px;
+        font-size: 30px;
+        font-weight: 100;
+        font-family: 'Reenie Beanie', cursive;
+    }
+}
+
+.inactive {
+    display: none;
+} 
+
+.control_line {
+    display: flex;
+    justify-content: space-between;
+}
