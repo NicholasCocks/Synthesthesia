@@ -167,7 +167,7 @@ function draw(e) {
         case 'brush5':
             let grad = ctx.createLinearGradient(150, 0, 280, 0);
             grad.addColorStop("0","rgba(255, 200, 0, 1)");
-            grad.addColorStop("0.66", "rgba(174, 0, 255, 1)");
+            grad.addColorStop("0.5", `rgba(174, 0, ${(255/ size) * mouse.y}, 1)`);
             grad.addColorStop("1", "rgba(13, 0, 200, 1)");
             ctx.strokeStyle = grad;
             ctx.shadowBlur = 0;
