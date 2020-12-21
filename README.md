@@ -1,32 +1,33 @@
-# Draw-Me-Oscillascope
-Welcome to the Draw-Me-Oscillascope wiki!
+# Synthesthesia
+Welcome to the Synthethesia wiki! [Live Link.](https://nicholascocks.github.io/Synthesthesia/)
 
-## Background!
-This app will allows users to draw sound and have the canvas dynamically react to their mouse movements and the sound being generated!
+## Overview
+Synthesthesia is a meditative drawing app that allows users to draw sound and have the canvas dynamically react to their sounds and mouse movements; the application uses an implementation of the Fast Fourier Transformations (FFT) to create a elegant frequency analyzer which the user can adjust the number of discrete data points to.
 
 ## Functionality & MVP
-With Draw-Me-Oscillascope, users will be able to:
+With Synthesthesia, users are be able to:
 
-Free-draw onto a board (graph). The x-axis corresponding to the left audio channel's volume/frequency and the y-axis corresponding to the right channel's volume/frequency.
-A frequency analyzer to show the waveform they're drawing.
+Free-draw onto a canvas and have notes played corresponsding to their mouse's position. 
+A frequency analyzer to show the waveforms of the notes they're drawing.
 A visual display of the numbers going into the fourier transform.
+The ability to select between dynamically colored brushed.
 
+## Architecture and Technologies
+CanvasHTML
+Web Audio Api
+Tone.js
 
-In addition this project will include:
-A brief introduction to the Fourier Transform used to convert coordinates to sound. 
-A production README.
+Tone.js, built on the Web Audio Api, was utilized for the Casio sound played when drawing and for help implementing the Frequnecy Analyzer using the Fast Fourier Transformation. The Web Audio Api (native to Javascript) allows for the creation of 'AnalyzerNodes' which link between sound source and destination and can return an array of 'discrete data point' based on the set 'FFT Size'. 
+Tone.js builds on top of this by converting the Float value of each discrete data point to decibels; allowing for a exponential scaling of volume rather than linear which more accurately reflexs how humans hear.
+
+CanvasHTML was used for implementing user drawing. A challenge in this is that mouseover events are 'too precise' leading to pixelated, jagged brush strokes and notes being played 'too fast'. This lead to the buidling of a system to record mouseover events into a queue data structure and then calculate quadratic curves based on mouse position, leading to slightly 'corrected' brush strokes that gave a more natural feel and smoother edges. This also allowed for easy debouncing of events that would trigger notes and for dynamically colored brushes. It was definitely the key insight to the project.
 
 Wireframe
 The center of the app will be the drawing plane. Will additional controls to the side of the app.
 ![wireframe.png](dist/images/wireframe.png)
 
-Architecture and Technologies
-There will be a drawing.js file for handling user input and the image, a oscillator.js file for generating sounds from that user input and a frequency_spectrum.js file for converting the sound into visuals frequencies. There will also be a controller.js file for any additional options such as filters or samples (native to the web audio api) to be built in.
-
-For the frequency_spectrum I might use the p5 JS library which builds off of the web audio api.
-
 ## Timeline
-Day1 setup drawing and sound logic. The end goal of the day is to be able to drow and have sound play.
+Setup drawing logic. Ability to draw and have mouse position returned for each mouseover event.  
 
 Day 2 will be dedicated to fixing and bugs and initializing the frequecy analyzer.
 
