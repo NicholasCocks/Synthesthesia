@@ -1,5 +1,5 @@
 # Synthesthesia
-Welcome to the Synthethesia wiki! [Live Link.](https://nicholascocks.github.io/Synthesthesia/)
+Welcome to the Synthethesia wiki! [Live Link](https://nicholascocks.github.io/Synthesthesia/).
 
 ## Overview
 Synthesthesia is a meditative drawing app that allows users to draw sound and have the canvas dynamically react to their sounds and mouse movements; the application uses an implementation of the Fast Fourier Transformations (FFT) to create a elegant frequency analyzer which the user can adjust the number of discrete data points to.
@@ -11,6 +11,8 @@ Free-draw onto a canvas and have notes played corresponsding to their mouse's po
 A frequency analyzer to show the waveforms of the notes they're drawing.
 A visual display of the numbers going into the fourier transform.
 The ability to select between dynamically colored brushed.
+
+![synthesthesia.gif](dist/images/synthesthesia.gif)
 
 ## Architecture and Technologies
 CanvasHTML
