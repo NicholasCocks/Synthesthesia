@@ -15,8 +15,8 @@ With Synthesthesia, users are be able to:
 ![synthesthesia.gif](dist/images/synthesthesia.gif)
 
 ## Architecture and Technologies
-* **CanvasHTML
-* **Web Audio Api
+* **CanvasHTML**
+* **Web Audio Api**
 * **Tone.js**
 
 **Tone.js;** built on the Web Audio Api, was utilized for the Casio sound played when drawing and for help implementing the Frequnecy Analyzer using the Fast Fourier Transformation. The Web Audio Api (native to Javascript) allows for the creation of 'AnalyzerNodes' which link between sound source and destination and can return an array of 'discrete data point' based on the set 'FFT Size'. 
@@ -26,7 +26,7 @@ With Synthesthesia, users are be able to:
   This also allowed for easy debouncing of events that would trigger notes and for dynamically colored brushes. It was definitely the key insight to the project.
 
 ## Wireframe
-The center of the app will be the drawing plane. Will additional controls to the side of the app.
+Original wireframe for the app, the center of the app will be the drawing plane. Will additional controls to the side of the app. 
 ![wireframe.png](dist/images/wireframe.png)
 
 ## Timeline
