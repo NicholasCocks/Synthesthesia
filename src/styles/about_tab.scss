@@ -1,8 +1,15 @@
 .about_icon {
+    display: flex;
+    align-items: center;
     font-size: 30px;
     position: absolute;
     top: 7px;
     right: 7px;
+    a {
+        display: flex;
+        align-items: center;
+        padding: 0;
+    }
 }
 
 .about_icon:hover {
