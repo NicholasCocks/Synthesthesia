@@ -30,10 +30,10 @@ Original wireframe for the app, the center of the app will be the drawing plane.
 ![wireframe.png](dist/images/wireframe.png)
 
 ## Timeline
-* Setup drawing logic. Ability to draw and have mouse position returned for each mouseover event.  
-* Created instrument and had it be triggered by mouseover events
-* Created frequecy analyzer function using Web Audio Api's Fast Fourier Transform (FFT).
-* Created queue and have lines drawn use Canvas's quadratic curves.
+* Setup drawing logic. Ability to draw and have mouse position returned for each mouseover event!  
+* Created instrument and had it be triggered by mouseover events!
+* Created frequecy analyzer function using Web Audio Api's Fast Fourier Transform (FFT)!
+* Created queue and have lines drawn use Canvas's quadratic curves!
 * Added brushes!
 
 
